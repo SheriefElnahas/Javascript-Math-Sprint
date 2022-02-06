@@ -1,27 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Math Sprint Game</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <section class="game-container">
-        <h1 class="game-heading">Math Spring Game</h1>
+      <h1 class="game-heading">Math Spring Game</h1>
 
-        <div class="game-questions">
-            <div class="game-question">
-                <p class="question">10 Questions <span class="score">Best Score</span> <span class="time">0.0s</span> </p>
-                <p class="question">25 Questions <span class="score">Best Score</span> <span class="time">0.0s</span> </p>
-                <p class="question">50 Questions <span class="score">Best Score</span> <span class="time">0.0s</span> </p>
-                <p class="question">99 Questions <span class="score">Best Score</span> <span class="time">0.0s</span> </p>
-            </div>
+      <div class="game-questions">
+        <div class="game-question">
+          <label for="question" class="question">10 Questions</label>
+          <input type="radio" id="question" value="10" />
+          <span class="right-part">
+            <span class="score">Best Score</span>
+            <span class="time">0.0s</span>
+          </span>
         </div>
+        <div class="game-question">
+          <label for="question" class="question">25 Questions</label>
+          <input type="radio" id="question" value="25" />
+          <span class="right-part">
+            <span class="score">Best Score</span>
+            <span class="time">0.0s</span>
+          </span>
+        </div>
+        <div class="game-question">
+          <label for="question" class="question">50 Questions</label>
+          <input type="radio" id="question" value="50" />
+          <span class="right-part">
+            <span class="score">Best Score</span>
+            <span class="time">0.0s</span>
+          </span>
+        </div>
+        <div class="game-question">
+            <label for="question" class="question">100 Questions</label>
+            <input type="radio" id="question" value="100" />
+            <span class="right-part">
+              <span class="score">Best Score</span>
+              <span class="time">0.0s</span>
+            </span>
+          </div>
+      </div>
+
+      <div class="counter-container hide">
+          <p class="counter">3</p>
+      </div>
+
+      <section class="quiz-container hide">
+
+
+         
+      </section>
+
+      <div class="start-container">
         <button class="start-round">Start Round</button>
+      </div>
+
+      <div class="right-wrong-container hide">
+          <button class="wrong">Wrong</button>
+          <button class="right">Right</button>
+      </div>
     </section>
 
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
