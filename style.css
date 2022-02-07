@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+/* Basic Setup */
+@import url("https://fonts.googleapis.com/css?family=Oxanium|PT+Mono&display=swap");
 * {
     padding:0;
     margin:0;
@@ -6,7 +8,7 @@
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: PT Mono, sans-serif;
     background-color:rgb(235, 235, 235);
 
 }
@@ -17,16 +19,18 @@ button {
     font-family: inherit;
 }
 
+/* Basic Setup */
+
 .game-container {
     text-align: center;
     border:1px solid black;
     width:400px;
-    height:515px;
+    height:503px;
     margin:1rem auto;
     box-shadow: 2px 4px 5px rgba(0,0,0,0.3);
 
 }
-.game-heading   {
+.main-heading   {
     background:rgb(86, 86, 221);
     width: 100%;
     text-align: center;
@@ -36,12 +40,13 @@ button {
     font-size:2rem;
 }
 
-.game-questions {
+/* Game Questions */
+.questions-number {
     padding-top:2rem;
     height:443px;
 
 }
-.game-question {
+.question-number-container {
     display:flex;
     justify-content: space-between;
     align-items: center;
@@ -52,43 +57,42 @@ button {
     position: relative;
 
 }
-input {
+.question-number {
+    font-weight:bold;
+    font-size:1.1rem;
+}
+.score-and-time {
+    display:flex;
+    flex-direction: column;
+}
+.question-score {
+    font-size:1rem;
+}
+.question-time {
+    font-size:1rem;
+    letter-spacing:2px;
+}
+
+input[type="radio"] {
     width:100%;
+    height:100%;
     cursor: pointer;
     border:3px solid orange;
     position: absolute;
+    left:0;
     opacity: 0;
-    height:100%;
 }
 
-.selected {
+
+.selected-question {
     background:rgb(86, 86, 221);
     color:#fff;
 }
 
-
-
-.question {
-    font-weight:bold;
-    font-size:1.1rem;
-}
-.right-part {
-    display:flex;
-    flex-direction: column;
-}
-
-.score {
-    font-size:1rem;
-}
-.time {
-    font-size:1rem;
-    letter-spacing:2px;
-}
-.start-container  {
+.start-round-container  {
     background:black;
     margin-top: 3rem;
 }
-
 
 .start-round {
     color:#fff;
@@ -101,10 +105,10 @@ input {
 }
 
 .start-round:hover {
-    background:rgb(89, 89, 184);
+    background:rgb(54, 54, 139);
 }
 
-
+/* Game Questions */
 
 
 
@@ -116,27 +120,24 @@ input {
     height:443px;
 }
 
-.counter {
+.counter-text {
     font-size:4rem;
 }
+/*  Counter */
 
 
 
-/*  quiz continer  */
-#quiz {
-    height:368px;
-}
+/*  Quiz  */
 .quiz-container {
     display:flex;
     align-items: flex-start;
     justify-content: center;
     flex-direction: column;
     overflow-y: scroll;
-    height: 300px;
-    /* height:368px;
-    overflow-y: scroll; */
+    height: 360px;
+
     font-size:1.5rem;
-    padding-top:20rem;
+    padding-top:12rem;
 
 }
 .quiz-question {
@@ -151,7 +152,7 @@ input {
 
 }
 
-.right {
+.right-answer {
     padding:0.5rem;
     margin:1rem 0 1rem 1rem;
     width:45%;
@@ -161,7 +162,7 @@ input {
     color:#fff;
     cursor: pointer;
 }
-.wrong {
+.wrong-answer {
     padding:0.5rem;
     margin:1rem 0 1rem 1rem;
     width:45%;
@@ -171,18 +172,19 @@ input {
     color:#fff;
     cursor: pointer;
 }
-.right:hover {
+.right-answer:hover {
     background:rgb(43, 167, 43);
 }
-.wrong:hover {
+.wrong-answer:hover {
     background:rgb(196, 71, 71);
 }
+/*  Quiz  */
+
 
 /* Result */
-
 .result-container {
     padding-top:5rem;
-    height:372px;
+    height:443px;
 }
 
 .result-text {
@@ -215,11 +217,14 @@ input {
     font-size:1.2rem;
     border-radius: 5px;
     margin:1rem;
+    margin-top:6rem;
 }
 .play-again:hover {
     background:rgb(168, 94, 238);
 }
+/* Result */
 
+/* Function Classes */
 .show {
     display:block;
 }
@@ -227,7 +232,6 @@ input {
     display:none;
 
 }
-
 .current-question {
     background:blueviolet;
     width:100%;

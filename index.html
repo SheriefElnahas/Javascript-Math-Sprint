@@ -8,78 +8,76 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <section class="game-container">
-      <h1 class="game-heading">Math Spring Game</h1>
+    <main class="game-container">
+        <header>
+            <h1 class="main-heading">Math Sprint Game</h1>
+        </header>
 
-      <div class="game-questions">
-        <div class="game-question">
-          <label for="question" class="question">10 Questions</label>
-          <input type="radio" id="question" value="10" />
-          <span class="right-part">
-            <span class="score">Best Score</span>
-            <span class="time">0.0s</span>
-          </span>
-        </div>
-        <div class="game-question">
-          <label for="question" class="question">25 Questions</label>
-          <input type="radio" id="question" value="25" />
-          <span class="right-part">
-            <span class="score">Best Score</span>
-            <span class="time">0.0s</span>
-          </span>
-        </div>
-        <div class="game-question">
-          <label for="question" class="question">50 Questions</label>
-          <input type="radio" id="question" value="50" />
-          <span class="right-part">
-            <span class="score">Best Score</span>
-            <span class="time">0.0s</span>
-          </span>
-        </div>
-        <div class="game-question">
-            <label for="question" class="question">100 Questions</label>
-            <input type="radio" id="question" value="100" />
-            <span class="right-part">
-              <span class="score">Best Score</span>
-              <span class="time">0.0s</span>
+
+     <section class="questions-number">
+        <div class="question-number-container">
+            <label for="question-number" class="question-number">10 Questions</label>
+            <input type="radio" id="question-number" value="10" />
+            <span class="score-and-time">
+              <span class="question-score">Best Score</span>
+              <span class="question-time">0.0s</span>
             </span>
           </div>
-          <div class="start-container">
+          <div class="question-number-container">
+            <label for="question-number" class="question-number">25 Questions</label>
+            <input type="radio" id="question-number" value="25" />
+            <span class="score-and-time">
+              <span class="question-score">Best Score</span>
+              <span class="question-time">0.0s</span>
+            </span>
+          </div>
+          <div class="question-number-container">
+            <label for="question-number" class="question-number">50 Questions</label>
+            <input type="radio" id="question-number" value="50" />
+            <span class="score-and-time">
+              <span class="question-score">Best Score</span>
+              <span class="question-time">0.0s</span>
+            </span>
+          </div>
+          <div class="question-number-container">
+            <label for="question-number" class="question-number">100 Questions</label>
+            <input type="radio" id="question-number" value="100" />
+            <span class="score-and-time">
+              <span class="question-score">Best Score</span>
+              <span class="question-time">0.0s</span>
+            </span>
+          </div>
+          <div class="start-round-container">
             <button class="start-round">Start Round</button>
           </div>
-        
-    
-      </div>
+     </section>   
 
-      <div class="counter-container hide">
-          <p class="counter">3</p>
-      </div>
+     <section class="counter-container hide">
+        <p class="counter-text">3</p>
+     </section>    
 
+     
       <section id="quiz" class="hide">
-        <div class="quiz-container">
+        <div class="quiz-container"></div>
 
-        </div>
-
+        <div class="right-wrong-container">
+            <button class="wrong-answer">Wrong</button>
+            <button class="right-answer">Right</button>
+          </div>
       </section>
-      <div class="right-wrong-container hide">
-        <button class="wrong">Wrong</button>
-        <button class="right">Right</button>
-    </div>
+
 
       <section class="result-container hide">
-          <p class="result-text">Your Time</p>
-          <p class="result-time">16.5s</p>
-          <p class="result-score" >Your Score : <span></span></p>
+        <p class="result-text">Your Time</p>
+        <p class="result-time">16.5s</p>
+        <p class="result-score">Your Score : <span></span></p>
 
+        <div class="play-again-container hide">
+            <button class="play-again">Play Again</button>
+          </div>
       </section>
 
-      <div class="play-again-container hide">
-          <button class="play-again">Play Again</button>
-      </div>
-
-    
-    
-    </section>
+    </main>
 
     <script src="script.js"></script>
   </body>

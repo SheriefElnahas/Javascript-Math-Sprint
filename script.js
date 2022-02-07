@@ -1,19 +1,20 @@
 const gameQuestions = document.querySelectorAll('input[type="radio"]');
 const startRound = document.querySelector(".start-round");
-const questionContainer = document.querySelector(".game-questions");
+const questionContainer = document.querySelector(".questions-number");
 
 // Counter
 const counterContainer = document.querySelector(".counter-container");
-const counterElement = document.querySelector(".counter");
+const counterElement = document.querySelector(".counter-text");
 
 let counter = 3;
 
 // Quiz
 const quizElement = document.getElementById('quiz');
 const quizContainer = document.querySelector(".quiz-container");
+
 const rightOrWrongContainer = document.querySelector(".right-wrong-container");
 
-const right = document.querySelector(".right");
+
 
 // result
 const resultContainer = document.querySelector('.result-container');
@@ -34,7 +35,7 @@ let start;
 
 function clearChecked() {
   for (let i = 0; i < gameQuestions.length; i++) {
-    gameQuestions[i].parentElement.classList.remove("selected");
+    gameQuestions[i].parentElement.classList.remove("selected-question");
   }
 }
 
@@ -42,7 +43,7 @@ gameQuestions.forEach(function (question) {
   question.addEventListener("click", function (e) {
     clearChecked();
     if (e.target.checked) {
-      e.target.parentElement.classList.add("selected");
+      e.target.parentElement.classList.add("selected-question");
     }
   });
 });
@@ -133,7 +134,7 @@ function nextQuestion() {
 rightOrWrongContainer.addEventListener("click", function (e) {
   if (e.target.tagName === "BUTTON") {
     const {firstNumber , secondNumber , result} = question;
-    console.log(`${firstNumber} x ${secondNumber} = ${result}`);
+    // console.log(`${firstNumber} x ${secondNumber} = ${result}`);
     questions += 1;
 
    
@@ -194,7 +195,7 @@ function renderResult() {
 
     let end = endTimer(start);
     // resultScore.textContent = end.toFixed(2);
-    resultTime.textContent = end.toFixed(2);
+    resultTime.textContent = end.toFixed(2) + 's';
 
     scoreElement.textContent = score;
 
@@ -227,3 +228,4 @@ function reset() {
   counter = 3;
 
 }
+
