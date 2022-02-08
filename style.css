@@ -25,7 +25,7 @@ button {
     text-align: center;
     border:1px solid black;
     width:400px;
-    height:503px;
+    height:531px;
     margin:1rem auto;
     box-shadow: 2px 4px 5px rgba(0,0,0,0.3);
 
@@ -38,6 +38,15 @@ button {
     padding:1rem;
     color:#fff;
     font-size:2rem;
+}
+
+.warning {
+    background:red;
+    margin:0 1rem;
+    padding:0.3rem;
+    border-radius: 5px;
+    font-size:1rem;
+    visibility: hidden;
 }
 
 /* Game Questions */
@@ -129,16 +138,11 @@ input[type="radio"] {
 
 /*  Quiz  */
 .quiz-container {
-    display:flex;
-    align-items: flex-start;
-    justify-content: center;
-    flex-direction: column;
     overflow-y: scroll;
-    height: 360px;
-
+    text-align: left;
+    height: 390px;
     font-size:1.5rem;
-    padding-top:12rem;
-
+    padding:5% 0;
 }
 .quiz-question {
     padding:0.3rem 2rem;
@@ -184,7 +188,7 @@ input[type="radio"] {
 /* Result */
 .result-container {
     padding-top:5rem;
-    height:443px;
+    height:460px;
 }
 
 .result-header {
@@ -213,7 +217,7 @@ input[type="radio"] {
     font-size:1.2rem;
     border-radius: 5px;
     margin:1rem;
-    margin-top:6rem;
+    margin-top:7.5rem;
 }
 .play-again:hover {
     background:rgb(168, 94, 238);
@@ -231,5 +235,5 @@ input[type="radio"] {
 .current-question {
     background:blueviolet;
     width:100%;
-    text-align: left;
+
 }

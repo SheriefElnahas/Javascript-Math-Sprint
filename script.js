@@ -3,6 +3,7 @@
 const questionsSection = document.querySelector(".questions-number");
 const questionNumber = document.querySelectorAll('input[type="radio"]');
 const startButton = document.querySelector(".start-round");
+const warningElement = document.querySelector('.warning');
 /********************************************************************************************************/
 
 /********************************************************************************************************/
@@ -30,7 +31,10 @@ let gameScore = 0;
 let currentQuestion;
 let startTimer;
 let counter = 3;
-
+let questionsNumber = 0;
+let currentQuestionNumber = 0;
+let questionsSolved = 0;
+let noInputSelected = true;
 /********************************************************************************************************/
 /*------------------- Helper Functions  -----------------*/
 function clearChecked() {
@@ -39,17 +43,24 @@ function clearChecked() {
   }
 }
 
-const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+let numberOfQuestionsArray = [];
+function changeNumbersBasedOnInputValue(questionsNumber) {
+  for(let i = 0; i < questionsNumber; i++) {
+    numberOfQuestionsArray.push(i);
+  }
+}
+
+
 let quizArray = [];
 
 function randomNumber() {
-  return Math.floor(Math.random() * numbers.length);
+  return Math.floor(Math.random() * numberOfQuestionsArray.length);
 }
 
 function createQuizObject() {
-  for (let i = 0; i < numbers.length; i++) {
-    let firstNumber = numbers[randomNumber()];
-    let secondNumber = numbers[randomNumber()];
+  for (let i = 0; i < numberOfQuestionsArray.length; i++) {
+    let firstNumber = numberOfQuestionsArray[randomNumber()];
+    let secondNumber = numberOfQuestionsArray[randomNumber()];
     quizArray.push({
       firstNumber,
       secondNumber,
@@ -84,9 +95,7 @@ function createQuizElement() {
   }
 }
 
-const questionsNumber = 10;
-let currentQuestionNumber = 0;
-let questionsSolved = 0;
+
 
 function extractCurrentQuestion() {
   while (currentQuestionNumber < questionsNumber) {
@@ -140,6 +149,9 @@ function renderResult() {
   // Update The UI For The Timer & Score
   resultTime.textContent = endingTimer.toFixed(2) + "s";
   resultScore.textContent = gameScore;
+
+
+  warningElement.style.visibility = 'hidden';
 }
 
 function hideResultAndShowQuestions() {
@@ -206,13 +218,17 @@ function reset() {
   questionsSolved = 0;
   gameScore = 0;
   questionsSolved = 0;
+  questionsNumber = 0;
 
   // Add Height Back TO Quiz Section
   quizSection.style.height = "360px";
 
-  // Resett Quiz Array & Opeartion Result Array;
+  // Resett Quiz Array & Opeartion Result Array & Numbers Array;
   quizArray = [];
   operationResultArray = [];
+  numberOfQuestionsArray = [];
+
+  clearChecked();
 
   // Play Again Logic
   // 1) Add Hide Class To Play Again Button
@@ -221,13 +237,20 @@ function reset() {
   // 4) Remove Hide Class From Start Button
   hideResultAndShowQuestions();
 }
-
 /********************************************************************************************************/
 
 /********************************************************************************************************/
 /*------------------- DOM Events  -----------------*/
 questionNumber.forEach(function (question) {
   question.addEventListener("click", function (e) {
+   // Assign Questions Number To The Selected Raido Input Value;
+    questionsNumber = +e.target.value;
+
+
+
+    changeNumbersBasedOnInputValue(questionsNumber)
+ 
+
     // First we remove selected class from all the inputs then add it to the current selected radio
     clearChecked();
     const radioInput = e.target;
@@ -239,7 +262,12 @@ questionNumber.forEach(function (question) {
 });
 
 startButton.addEventListener("click", function () {
-  // Start Logic
+
+ 
+  if(questionsNumber === 0) {
+    warningElement.style.visibility = 'visible';
+  } else {
+   // Start Logic
   // 1) After Pressing Start Round
   // 2) Add Hide Class To Questions Section
   // 3) Add Hide Class To Start Round Button
@@ -251,6 +279,10 @@ startButton.addEventListener("click", function () {
   // 2) If Counter Is 0 Then Stop The Counter & Update Counter Element Text To Be Go!
   // 3) After One Sec From Showing Go Create Quiz And Render Them TO the Screen
   counterCountDownLogic();
+  }
+  
+
+
 });
 
 rightOrWrongContainer.addEventListener("click", function (e) {
