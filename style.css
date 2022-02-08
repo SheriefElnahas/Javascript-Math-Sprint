@@ -187,7 +187,7 @@ input[type="radio"] {
     height:443px;
 }
 
-.result-text {
+.result-header {
     margin-bottom:0.5rem;
     font-size:1.8rem;
     font-weight: bold;
@@ -203,11 +203,7 @@ input[type="radio"] {
     letter-spacing:1px;
     margin-bottom:0.5rem;
 }
-.result-penalty {
-    color:red;
-    font-size:1.5rem;
-    letter-spacing: 1px;
-}
+
 
 .play-again {
     width:90%;

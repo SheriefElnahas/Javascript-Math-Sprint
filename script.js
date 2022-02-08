@@ -1,231 +1,285 @@
-const gameQuestions = document.querySelectorAll('input[type="radio"]');
-const startRound = document.querySelector(".start-round");
-const questionContainer = document.querySelector(".questions-number");
+/********************************************************************************************************/
+/*------------------- Questions Number DOM Selection  -----------------*/
+const questionsSection = document.querySelector(".questions-number");
+const questionNumber = document.querySelectorAll('input[type="radio"]');
+const startButton = document.querySelector(".start-round");
+/********************************************************************************************************/
 
-// Counter
-const counterContainer = document.querySelector(".counter-container");
+/********************************************************************************************************/
+/*------------------- Counter DOM Selection -----------------*/
+const counterSection = document.querySelector(".counter-container");
 const counterElement = document.querySelector(".counter-text");
+/********************************************************************************************************/
 
+/********************************************************************************************************/
+/*------------------- Quiz DOM Selection  -----------------*/
+const quizSection = document.getElementById("quiz");
+const quizContainer = document.querySelector(".quiz-container");
+const rightOrWrongContainer = document.querySelector(".right-wrong-container");
+/********************************************************************************************************/
+
+/********************************************************************************************************/
+/*------------------- Result DOM Selection  -----------------*/
+const resultSection = document.querySelector(".result-container");
+const resultScore = document.querySelector(".result-score span");
+const resultTime = document.querySelector(".result-time");
+const playAgainButton = document.querySelector(".play-again");
+/********************************************************************************************************/
+
+let gameScore = 0;
+let currentQuestion;
+let startTimer;
 let counter = 3;
 
-// Quiz
-const quizElement = document.getElementById('quiz');
-const quizContainer = document.querySelector(".quiz-container");
-
-const rightOrWrongContainer = document.querySelector(".right-wrong-container");
-
-
-
-// result
-const resultContainer = document.querySelector('.result-container');
-const playAgainContainer = document.querySelector('.play-again-container');
-
-const resultScore = document.querySelector('.result-score');
-const scoreElement = document.querySelector('.result-score span');
-const resultTime = document.querySelector('.result-time');
-
-
-const playAgainButton = document.querySelector('.play-again');
-
-let startGame = false;
-let score = 0;
-let question;
-let start;
-
-
+/********************************************************************************************************/
+/*------------------- Helper Functions  -----------------*/
 function clearChecked() {
-  for (let i = 0; i < gameQuestions.length; i++) {
-    gameQuestions[i].parentElement.classList.remove("selected-question");
+  for (let i = 0; i < questionNumber.length; i++) {
+    questionNumber[i].parentElement.classList.remove("selected-question");
   }
 }
 
-gameQuestions.forEach(function (question) {
-  question.addEventListener("click", function (e) {
-    clearChecked();
-    if (e.target.checked) {
-      e.target.parentElement.classList.add("selected-question");
-    }
-  });
-});
-
-startRound.addEventListener("click", function () {
-  questionContainer.classList.add("hide");
-  counterContainer.classList.remove("hide");
-
-  const intervalId = setInterval(() => {
-    counter -= 1;
-    counterElement.textContent = counter;
-    if (counter === 0) {
-      clearInterval(intervalId);
-      counterElement.textContent = "GO!";
-
-      setTimeout(() => {
-      test();
-      counterContainer.classList.add("hide");
-      quizElement.classList.remove("hide");
-
-
-      startRound.classList.add("hide");
-      rightOrWrongContainer.classList.remove("hide");
-      
-      question = initQuiz();
-      start =  startTimer();
-      }, 1000)
-
-  
- 
-    }
-  }, 1000);
-});
-
 const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+let quizArray = [];
 
 function randomNumber() {
   return Math.floor(Math.random() * numbers.length);
 }
-let firstNumber;
-let secondNumber;
 
-const result = [];
-
-function answers() {
+function createQuizObject() {
   for (let i = 0; i < numbers.length; i++) {
-    firstNumber = numbers[randomNumber()];
-    secondNumber = numbers[randomNumber()];
-    result.push({
+    let firstNumber = numbers[randomNumber()];
+    let secondNumber = numbers[randomNumber()];
+    quizArray.push({
       firstNumber,
       secondNumber,
-      answer: firstNumber * secondNumber,
+      operationResult: firstNumber * secondNumber,
     });
   }
 }
-answers();
 
-const something = [];
-for (let item of result) {
-  something.push(item.answer);
+let operationResultArray = [];
+
+function createOperationResultArray() {
+  for (let item of quizArray) {
+    operationResultArray.push(item.operationResult);
+  }
 }
 
-function test() {
-  for (let i = 0; i < result.length; i++) {
+function createQuizElement() {
+  quizContainer.innerHTML = "";
+  for (let i = 0; i < quizArray.length; i++) {
+    // Destructure First & Second Number From Quiz Array
+    const { firstNumber, secondNumber } = quizArray[i];
+
+    // Create P Element & Add Class To It
     const p = document.createElement("p");
     p.className = "quiz-question";
 
-    p.textContent = `${result[i].firstNumber} x ${result[i].secondNumber} = ${
-      something[randomNumber()]
+    // First Number x Second Number = To Random Result From Operation Result Array
+    p.textContent = `${firstNumber} x ${secondNumber} = ${
+      operationResultArray[randomNumber()]
     } `;
     quizContainer.append(p);
   }
 }
 
+const questionsNumber = 10;
+let currentQuestionNumber = 0;
+let questionsSolved = 0;
 
-let current = 0;
-let questions = 0;
+function extractCurrentQuestion() {
+  while (currentQuestionNumber < questionsNumber) {
+    // Extract The Current Quiz Element From Quiz Container Children HTML Collection
+    const currentQuizElement = quizContainer.children[currentQuestionNumber];
+
+    currentQuizElement.classList.add("current-question");
+
+    // Extract First Number & Second Number & Result;
+    // <p class="quiz-question current-question">0 x 9 = 18 </p>
+    const firstNumber = currentQuizElement.textContent.slice(0, 1);
+    const secondNumber = currentQuizElement.textContent.slice(4, 5);
+    const operationResult = currentQuizElement.textContent.slice(8);
+
+    return { firstNumber, secondNumber, operationResult };
+  }
+}
 
 function nextQuestion() {
-  quizContainer.children[current].classList.remove("current-question");
-  if (current < 10) {
-    current++;
+  // Remove Current Question Class
+  quizContainer.children[currentQuestionNumber].classList.remove(
+    "current-question"
+  );
+
+  if (currentQuestionNumber < questionsNumber) {
+    currentQuestionNumber++;
   }
-  question = initQuiz();
+  currentQuestion = extractCurrentQuestion();
 }
 
-
-rightOrWrongContainer.addEventListener("click", function (e) {
-  if (e.target.tagName === "BUTTON") {
-    const {firstNumber , secondNumber , result} = question;
-    // console.log(`${firstNumber} x ${secondNumber} = ${result}`);
-    questions += 1;
-
-   
-    if(e.target.textContent === 'Wrong') {
-
-        if(firstNumber * secondNumber !== result) {
-    
-            score += 1;
-        } else {
-          // penalty += 0.5;
-        }
-    }
-    if(e.target.textContent === 'Right') {
-
-        if(+firstNumber * +secondNumber === +result) {
-
-            score += 1;
-    
-        }  else {
-          // penalty += 0.5;
-        }
-    }
-
-    if(questions === 10) {
-        renderResult();
-    } else if(questions !== 10) {
-      nextQuestion();
-    }
-
-  }
-
-});
-
-function initQuiz() {
-
-    while(current < 10) {
-      const currentQuiz = quizContainer.children[current];
-
-      currentQuiz.classList.add("current-question");
-      const firstNumber = currentQuiz.textContent.slice(0, 1);
-      const secondNumber = currentQuiz.textContent.slice(4, 5);
-      const result = currentQuiz.textContent.slice(8);
-  
-      return {firstNumber, secondNumber, result}
-    }
-   
-
+function startQuiz() {
+  return new Date().getTime();
 }
 
-function renderResult() {
-  quizElement.style.height = 0;
-    quizContainer.classList.add('hide');
-    rightOrWrongContainer.classList.add('hide');
-
-
-    resultContainer.classList.remove('hide');
-    playAgainContainer.classList.remove('hide');
-
-    let end = endTimer(start);
-    // resultScore.textContent = end.toFixed(2);
-    resultTime.textContent = end.toFixed(2) + 's';
-
-    scoreElement.textContent = score;
-
-}
-
-function startTimer() {
-  const startingTime = new Date().getTime();
-  return startingTime;
-
-}
-
-function endTimer(startTime) {
+function endQuiz(startTime) {
   return (new Date().getTime() - startTime) / 1000;
 }
 
+function renderResult() {
+  // Remove Quiz Section From The Dom
+  quizSection.style.height = 0;
+  quizSection.classList.add("hide");
+  rightOrWrongContainer.classList.add("hide");
 
+  // Add Result Section & Play Again Button
+  resultSection.classList.remove("hide");
+  playAgainButton.classList.remove("hide");
 
-playAgainButton.addEventListener('click', function() {
-    reset();
+  let endingTimer = endQuiz(startTimer);
 
-});
+  // Update The UI For The Timer & Score
+  resultTime.textContent = endingTimer.toFixed(2) + "s";
+  resultScore.textContent = gameScore;
+}
 
+function hideResultAndShowQuestions() {
+  playAgainButton.classList.add("hide");
+  resultSection.classList.add("hide");
+  questionsSection.classList.remove("hide");
+  startButton.classList.remove("hide");
+}
 
-function reset() {
-  playAgainContainer.classList.add('hide');
-  resultContainer.classList.add('hide');
-  questionContainer.classList.remove("hide");
-  startRound.classList.remove("hide");
+function hideQuestionsAndShowCounter() {
+  questionsSection.classList.add("hide");
+  startButton.classList.add("hide");
+  counterSection.classList.remove("hide");
+
+  // Reset Counter Variable & Update Counter Element To Be Equal to Counter Variable;
 
   counter = 3;
 
+  counterElement.textContent = counter;
 }
+
+function createQuizLogic() {
+  setTimeout(() => {
+    // Quiz Function Call Order
+    // 1) Create Quiz Object
+    // 2) Create Operation Result Array
+    // 3) Create Quiz Element
+    createQuizObject();
+    createOperationResultArray();
+    createQuizElement();
+    // Hide Couner & Show Quiz Section & Hide Start Button & Show Right - Wrong Buttons
+    counterSection.classList.add("hide");
+    quizSection.classList.remove("hide");
+
+    rightOrWrongContainer.classList.remove("hide");
+    // Get Access To The Current Question & Start The Timer
+
+    currentQuestion = extractCurrentQuestion();
+    startTimer = startQuiz();
+  }, 1000);
+}
+
+function counterCountDownLogic() {
+  const intervalId = setInterval(() => {
+    // Reduce Counter & Change Counter Element To Counter Number
+
+    counter -= 1;
+    counterElement.textContent = counter;
+
+    // Stop The Interval & Print Go!
+    if (counter === 0) {
+      clearInterval(intervalId);
+      counterElement.textContent = "GO!";
+
+      // After 1 sec from showing go show quiz section
+      createQuizLogic();
+    }
+  }, 1000);
+}
+
+function reset() {
+  // Result All Values & Empty Aall The Arrays
+  currentQuestionNumber = 0;
+  questionsSolved = 0;
+  gameScore = 0;
+  questionsSolved = 0;
+
+  // Add Height Back TO Quiz Section
+  quizSection.style.height = "360px";
+
+  // Resett Quiz Array & Opeartion Result Array;
+  quizArray = [];
+  operationResultArray = [];
+
+  // Play Again Logic
+  // 1) Add Hide Class To Play Again Button
+  // 2) Add Hide Class To Result Section
+  // 3) Remove Hide Class From Questions Section
+  // 4) Remove Hide Class From Start Button
+  hideResultAndShowQuestions();
+}
+
+/********************************************************************************************************/
+
+/********************************************************************************************************/
+/*------------------- DOM Events  -----------------*/
+questionNumber.forEach(function (question) {
+  question.addEventListener("click", function (e) {
+    // First we remove selected class from all the inputs then add it to the current selected radio
+    clearChecked();
+    const radioInput = e.target;
+
+    if (radioInput.checked) {
+      radioInput.parentElement.classList.add("selected-question");
+    }
+  });
+});
+
+startButton.addEventListener("click", function () {
+  // Start Logic
+  // 1) After Pressing Start Round
+  // 2) Add Hide Class To Questions Section
+  // 3) Add Hide Class To Start Round Button
+  // 4) Remove Hide Class From Counter Section
+  hideQuestionsAndShowCounter();
+
+  // Counter Count Down Logic
+  // 1) After 1 Sec Subtract 1 From Counter Variable & Update Counter Element
+  // 2) If Counter Is 0 Then Stop The Counter & Update Counter Element Text To Be Go!
+  // 3) After One Sec From Showing Go Create Quiz And Render Them TO the Screen
+  counterCountDownLogic();
+});
+
+rightOrWrongContainer.addEventListener("click", function (e) {
+  if (e.target.tagName === "BUTTON") {
+    const { firstNumber, secondNumber, operationResult } = currentQuestion;
+    questionsSolved += 1;
+
+    if (e.target.textContent === "Wrong") {
+      if (+firstNumber * +secondNumber !== +operationResult) {
+        gameScore += 1;
+      }
+    }
+
+    if (e.target.textContent === "Right") {
+      if (+firstNumber * +secondNumber === +operationResult) {
+        gameScore += 1;
+      }
+    }
+
+    if (questionsSolved === questionsNumber) {
+      renderResult();
+    } else if (questionsSolved !== questionsNumber) {
+      nextQuestion();
+    }
+  }
+});
+
+playAgainButton.addEventListener("click", function () {
+  reset();
+});
+
 
