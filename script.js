@@ -3,7 +3,7 @@
 const questionsSection = document.querySelector(".questions-number");
 const questionNumber = document.querySelectorAll('input[type="radio"]');
 const startButton = document.querySelector(".start-round");
-const warningElement = document.querySelector('.warning');
+const warningElement = document.querySelector(".warning");
 /********************************************************************************************************/
 
 /********************************************************************************************************/
@@ -30,11 +30,12 @@ const playAgainButton = document.querySelector(".play-again");
 let gameScore = 0;
 let currentQuestion;
 let startTimer;
+let endingTimer;
 let counter = 3;
 let questionsNumber = 0;
 let currentQuestionNumber = 0;
 let questionsSolved = 0;
-let noInputSelected = true;
+let selectedInputTimeElement;
 /********************************************************************************************************/
 /*------------------- Helper Functions  -----------------*/
 function clearChecked() {
@@ -45,11 +46,10 @@ function clearChecked() {
 
 let numberOfQuestionsArray = [];
 function changeNumbersBasedOnInputValue(questionsNumber) {
-  for(let i = 0; i < questionsNumber; i++) {
+  for (let i = 0; i < questionsNumber; i++) {
     numberOfQuestionsArray.push(i);
   }
 }
-
 
 let quizArray = [];
 
@@ -94,8 +94,6 @@ function createQuizElement() {
     quizContainer.append(p);
   }
 }
-
-
 
 function extractCurrentQuestion() {
   while (currentQuestionNumber < questionsNumber) {
@@ -144,14 +142,14 @@ function renderResult() {
   resultSection.classList.remove("hide");
   playAgainButton.classList.remove("hide");
 
-  let endingTimer = endQuiz(startTimer);
+  endingTimer = endQuiz(startTimer);
 
   // Update The UI For The Timer & Score
   resultTime.textContent = endingTimer.toFixed(2) + "s";
   resultScore.textContent = gameScore;
 
-
-  warningElement.style.visibility = 'hidden';
+  warningElement.style.visibility = "hidden";
+  selectedInputTimeElement.textContent = endingTimer.toFixed(2) + "s";
 }
 
 function hideResultAndShowQuestions() {
@@ -237,19 +235,18 @@ function reset() {
   // 4) Remove Hide Class From Start Button
   hideResultAndShowQuestions();
 }
+
 /********************************************************************************************************/
 
 /********************************************************************************************************/
 /*------------------- DOM Events  -----------------*/
 questionNumber.forEach(function (question) {
   question.addEventListener("click", function (e) {
-   // Assign Questions Number To The Selected Raido Input Value;
+    // Assign Questions Number To The Selected Raido Input Value;
+
     questionsNumber = +e.target.value;
 
-
-
-    changeNumbersBasedOnInputValue(questionsNumber)
- 
+    selectedInputTimeElement = e.target.nextElementSibling.children[1];
 
     // First we remove selected class from all the inputs then add it to the current selected radio
     clearChecked();
@@ -262,27 +259,24 @@ questionNumber.forEach(function (question) {
 });
 
 startButton.addEventListener("click", function () {
+  changeNumbersBasedOnInputValue(questionsNumber);
 
- 
-  if(questionsNumber === 0) {
-    warningElement.style.visibility = 'visible';
+  if (questionsNumber === 0) {
+    warningElement.style.visibility = "visible";
   } else {
-   // Start Logic
-  // 1) After Pressing Start Round
-  // 2) Add Hide Class To Questions Section
-  // 3) Add Hide Class To Start Round Button
-  // 4) Remove Hide Class From Counter Section
-  hideQuestionsAndShowCounter();
+    // Start Logic
+    // 1) After Pressing Start Round
+    // 2) Add Hide Class To Questions Section
+    // 3) Add Hide Class To Start Round Button
+    // 4) Remove Hide Class From Counter Section
+    hideQuestionsAndShowCounter();
 
-  // Counter Count Down Logic
-  // 1) After 1 Sec Subtract 1 From Counter Variable & Update Counter Element
-  // 2) If Counter Is 0 Then Stop The Counter & Update Counter Element Text To Be Go!
-  // 3) After One Sec From Showing Go Create Quiz And Render Them TO the Screen
-  counterCountDownLogic();
+    // Counter Count Down Logic
+    // 1) After 1 Sec Subtract 1 From Counter Variable & Update Counter Element
+    // 2) If Counter Is 0 Then Stop The Counter & Update Counter Element Text To Be Go!
+    // 3) After One Sec From Showing Go Create Quiz And Render Them TO the Screen
+    counterCountDownLogic();
   }
-  
-
-
 });
 
 rightOrWrongContainer.addEventListener("click", function (e) {
@@ -313,5 +307,3 @@ rightOrWrongContainer.addEventListener("click", function (e) {
 playAgainButton.addEventListener("click", function () {
   reset();
 });
-
-

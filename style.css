@@ -76,6 +76,7 @@ button {
 }
 .question-score {
     font-size:1rem;
+    margin-left:-1rem;
 }
 .question-time {
     font-size:1rem;
